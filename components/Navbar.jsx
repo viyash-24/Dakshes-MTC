@@ -50,7 +50,7 @@ export default function Navbar() {
           : 'bg-transparent'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+          <div className="flex items-center h-16">
             {/* Logo */}
             <Link href="/" className="group flex items-center gap-3">
               <div className="w-8 h-8 bg-brand-950 dark:bg-white flex items-center justify-center">
@@ -64,28 +64,31 @@ export default function Navbar() {
               </span>
             </Link>
 
-            {/* Desktop Links */}
-            <div className="hidden md:flex items-center gap-10">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`text-xs font-medium tracking-widest uppercase transition-all duration-300 relative group ${
-                    pathname === link.href
-                      ? 'text-brand-950 dark:text-white'
-                      : 'text-brand-500 dark:text-brand-400 hover:text-brand-950 dark:hover:text-white'
-                  }`}
-                >
-                  {link.label}
-                  <span className={`absolute -bottom-1 left-0 h-px bg-brand-950 dark:bg-white transition-all duration-300 ${
-                    pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
-                  }`} />
-                </Link>
-              ))}
+            {/* Desktop Links (center) */}
+            <div className="hidden md:flex flex-1 justify-center">
+              <div className="flex items-center gap-10 px-6 py-2 rounded-full backdrop-blur-xl backdrop-saturate-150 bg-white/45 dark:bg-white/10 border border-white/30 dark:border-white/10 ring-1 ring-white/20 dark:ring-white/10 shadow-md">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`text-xs font-medium tracking-widest uppercase transition-all duration-300 relative group ${
+                      pathname === link.href
+                        ? 'text-brand-950 dark:text-white'
+                        : 'text-brand-700 dark:text-brand-200 hover:text-brand-950 dark:hover:text-white'
+                    }`}
+                  >
+                    {link.label}
+                    <span className={`absolute -bottom-1 left-0 h-px bg-brand-950 dark:bg-white transition-all duration-300 ${
+                      pathname === link.href ? 'w-full' : 'w-0 group-hover:w-full'
+                    }`} />
+                  </Link>
+                ))}
+              </div>
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 ml-auto">
+
               {/* Dark Mode Toggle */}
               <button
                 onClick={toggleDark}
