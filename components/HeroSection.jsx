@@ -68,7 +68,7 @@ export default function HeroSection() {
         if (curtain) gsap.set(curtain, { scaleX: 0 })
         if (bg) gsap.set(bg, { scale: 1, opacity: 1, filter: 'none', y: 0 })
         if (overlay) gsap.set(overlay, { opacity: 1 })
-        if (morphingShapeRef.current) gsap.set(morphingShapeRef.current, { scale: 1, opacity: 1, rotation: 0 })
+        if (morphingShapeRef.current) gsap.set(morphingShapeRef.current, { scale: 1, opacity: 1, x: 0, y: 0 })
         if (eyebrowRef.current) gsap.set(eyebrowRef.current, { opacity: 1, clipPath: 'none', filter: 'none' })
         headlineLineRefs.current.forEach((line) => {
           if (line) gsap.set(line, { y: 0, opacity: 1, filter: 'none', rotateX: 0 })
@@ -114,26 +114,37 @@ export default function HeroSection() {
       // Phase 3: Combined circle enters (pop-up effect)
       master.fromTo(
         morphingShapeRef.current,
-        { scale: 0.5, opacity: 0, rotation: -15 },
+        { scale: 0.5, opacity: 0, y: 23 },
         {
           scale: 1,
           opacity: 1,
-          rotation: 0,
+          y: 0,
           duration: 1.2,
           ease: 'back.out(1.5)',
         },
         0.8
       )
 
-      // Continuous floating animation for the circle
-      gsap.to(morphingShapeRef.current, {
-        y: '-=16',
-        duration: 3,
-        ease: 'sine.inOut',
-        repeat: -1,
-        yoyo: true,
-        delay: 2.0,
-      })
+      // Slow half-round (semi-circle) motion for the circle
+      if (morphingShapeRef.current) {
+        const arc = { t: 0 }
+        const radiusX = 10
+        const radiusY = 6
+
+        gsap.to(arc, {
+          t: Math.PI,
+          duration: 10,
+          ease: 'none',
+          repeat: -1,
+          yoyo: true,
+          delay: 2.0,
+          onUpdate: () => {
+            const x = Math.cos(arc.t) * radiusX
+            const y = -Math.sin(arc.t) * radiusY
+            gsap.set(morphingShapeRef.current, { x, y })
+          },
+        })
+      }
 
       // Phase 4: Eyebrow reveal
       master.fromTo(
@@ -265,12 +276,6 @@ export default function HeroSection() {
             if (heroContent) {
               setContentY(p * -55)
               setContentOpacity(Math.max(0, 1 - p * 1.5))
-            }
-            if (morphingShapeRef.current) {
-              gsap.set(morphingShapeRef.current, {
-                y: p * -80,
-                scale: 1 - p * 0.15,
-              })
             }
           },
         })
