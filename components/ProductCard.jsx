@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { formatLkr } from '@/lib/currency'
 
 export default function ProductCard({ product }) {
   return (
@@ -13,7 +14,7 @@ export default function ProductCard({ product }) {
             className="w-full h-full object-cover product-img-zoom"
           />
           {/* Overlay on hover */}
-          <div className="absolute inset-0 bg-brand-950/0 product-overlay-reveal bg-brand-950/20" />
+          <div className="absolute inset-0 bg-brand-950/20 product-overlay-reveal" />
 
           {/* Quick View indicator */}
           <div className="absolute bottom-4 left-1/2 -translate-x-1/2 product-quickview">
@@ -36,7 +37,7 @@ export default function ProductCard({ product }) {
               style={{ fontFamily: 'Cormorant Garamond, serif' }}
               className="text-xl font-light text-brand-950 dark:text-white shrink-0"
             >
-              ${product.price.toFixed(2)}
+              {formatLkr(product.price)}
             </p>
           </div>
 

@@ -98,7 +98,7 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
         {/* Price */}
         <div>
-          <label className="block text-xs tracking-widest uppercase text-brand-500 dark:text-brand-400 mb-2">Price (USD) *</label>
+          <label className="block text-xs tracking-widest uppercase text-brand-500 dark:text-brand-400 mb-2">Price (LKR) *</label>
           <input
             type="number"
             value={form.price}
