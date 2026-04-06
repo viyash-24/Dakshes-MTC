@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-export default function ScrollAnimations({ children }) {
+export default function ScrollAnimations({ children, refreshKey }) {
   const containerRef = useRef(null)
 
   useEffect(() => {
@@ -231,7 +231,7 @@ export default function ScrollAnimations({ children }) {
     }, container)
 
     return () => ctx.revert()
-  }, [])
+  }, [refreshKey])
 
   return (
     <div ref={containerRef}>
