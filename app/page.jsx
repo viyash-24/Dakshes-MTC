@@ -159,7 +159,7 @@ export default function HomePage() {
                     { icon: 'phone', label: 'Call Us', value: '+94 77 518 6518', href: 'tel:+94775186518' },
                     { icon: 'email', label: 'Email', value: 'vigneshwaranvikki02@gmail.com', href: 'mailto:vigneshwaranvikki02@gmail.com' },
                     { icon: 'whatsapp', label: 'WhatsApp', value: 'Chat with us directly', href: 'https://wa.me/94775186518' },
-                    { icon: 'location', label: 'Dakshes', value: '104/18 crystal market Keyzer st Colombo 11', href: 'https://www.google.com/maps/search/?api=1&query=104%2F18+crystal+market+Keyzer+st+Colombo+11' },
+                    { icon: 'location', label: 'location', value: '104/18 crystal market Keyzer st Colombo 11', href: 'https://www.google.com/maps/search/?api=1&query=104%2F18+crystal+market+Keyzer+st+Colombo+11' },
                   ].map((item) => (
                     <a
                       key={item.label}
