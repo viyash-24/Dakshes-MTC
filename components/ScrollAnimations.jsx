@@ -6,6 +6,10 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
+// Tell GSAP to ignore small resize events (like mobile address bar hiding) to prevent jitter, 
+// since we deliberately handle the initial refresh.
+ScrollTrigger.config({ ignoreMobileResize: true })
+
 export default function ScrollAnimations({ children, refreshKey }) {
   const containerRef = useRef(null)
 
@@ -230,7 +234,21 @@ export default function ScrollAnimations({ children, refreshKey }) {
       }
     }, container)
 
-    return () => ctx.revert()
+    // Force recalculation after layout settles, fonts load, and on initial render
+    const tId1 = setTimeout(() => ScrollTrigger.refresh(), 100)
+    const tId2 = setTimeout(() => ScrollTrigger.refresh(), 500)
+    let fontLoadListener
+    if (document.fonts) {
+      fontLoadListener = document.fonts.ready.then(() => {
+        ScrollTrigger.refresh()
+      })
+    }
+
+    return () => {
+      clearTimeout(tId1)
+      clearTimeout(tId2)
+      ctx.revert()
+    }
   }, [refreshKey])
 
   return (
