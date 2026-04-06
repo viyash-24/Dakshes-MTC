@@ -1,6 +1,6 @@
 'use client'
 
-const WHATSAPP_NUMBER = '1234567890' // Replace with your actual WhatsApp number
+const WHATSAPP_NUMBER = '94775186518' 
 
 export default function WhatsAppButton({ product, selectedSize, quantity, disabled }) {
   const handleClick = () => {
