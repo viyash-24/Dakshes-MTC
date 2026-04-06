@@ -390,7 +390,7 @@ export default function HeroSection() {
       {/* Combined Unified Badge / Shape */}
       <div
         ref={morphingShapeRef}
-        className="hidden md:flex absolute top-1/4 right-[4%] md:right-[6%] lg:right-[8%] w-32 h-32 md:w-48 md:h-48 rounded-full border border-amber-300/30 items-center justify-center transition-transform hover:scale-105 duration-500"
+        className="flex absolute top-[clamp(240px,42vh,360px)] right-4 sm:top-20 md:top-1/4 md:right-[6%] lg:right-[8%] w-[72px] h-[72px] sm:w-24 sm:h-24 md:w-48 md:h-48 rounded-full border border-amber-300/30 items-center justify-center transition-transform hover:scale-105 duration-500"
         style={{ 
           opacity: 0,
           background: 'radial-gradient(circle, rgba(251,191,36,0.15) 0%, rgba(245,158,11,0.05) 100%)',
@@ -398,21 +398,24 @@ export default function HeroSection() {
           boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)'
         }}
       >
-        <div className="text-center">
-          <p className="text-[10px] md:text-xs tracking-widest uppercase text-amber-300/90 mb-1">Since</p>
+        <div aria-hidden="true" className="absolute inset-1 sm:inset-2 rounded-full border border-amber-300/20" />
+        <div aria-hidden="true" className="absolute inset-2 sm:inset-3 md:inset-4 rounded-full border border-amber-300/10" />
+
+        <div className="text-center relative z-10">
+          <p className="text-[7px] sm:text-[10px] md:text-xs tracking-widest uppercase text-amber-300/90 mb-0.5 sm:mb-1">Since</p>
           <p
             style={{ fontFamily: 'Cormorant Garamond, serif' }}
-            className="text-xl md:text-3xl font-light text-white"
+            className="text-sm sm:text-xl md:text-3xl font-light text-white leading-none"
           >
             2026
           </p>
         </div>
       </div>
 
-      {/* Floating Particles (desktop / tablet only) */}
+      {/* Floating Particles */}
       <div
         ref={particlesRef}
-        className="absolute inset-0 pointer-events-none overflow-hidden hidden md:block"
+        className="absolute inset-0 pointer-events-none overflow-hidden block"
       >
         {Array.from({ length: 20 }).map((_, i) => (
           <div
@@ -426,10 +429,10 @@ export default function HeroSection() {
       <div className="absolute inset-0 pointer-events-none hero-grid-lines" />
 
       {/* Hero Content */}
-      <div className="hero-content relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="hero-content relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 sm:pt-0">
         <div className="max-w-2xl">
           {/* Eyebrow */}
-          <div ref={eyebrowRef} className="flex items-center gap-3 mb-6" style={{ opacity: 0 }}>
+          <div ref={eyebrowRef} className="flex items-center gap-3 mb-6 max-sm:mb-3" style={{ opacity: 0 }}>
             <span className="inline-block w-10 h-px bg-gradient-to-r from-amber-400 to-amber-200" />
             <p className="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-amber-300/90 font-medium">
               New Collection — 2026
@@ -440,7 +443,7 @@ export default function HeroSection() {
           <h1
             ref={headlineRef}
             style={{ fontFamily: 'Cormorant Garamond, serif' }}
-            className="text-5xl sm:text-6xl md:text-8xl font-light text-white leading-[0.95] mb-5"
+            className="text-4xl sm:text-6xl md:text-8xl font-light text-white leading-[0.95] mb-5 max-sm:mb-3"
           >
             <span
               ref={(el) => (headlineLineRefs.current[0] = el)}
@@ -461,14 +464,14 @@ export default function HeroSection() {
           {/* Decorative Line */}
           <div
             ref={decorLineRef}
-            className="w-24 h-px bg-gradient-to-r from-amber-400 via-amber-300 to-transparent mb-6"
+            className="w-24 h-px bg-gradient-to-r from-amber-400 via-amber-300 to-transparent mb-6 max-sm:mb-4"
             style={{ transform: 'scaleX(0)' }}
           />
 
           {/* Subtitle */}
           <p
             ref={subtitleRef}
-            className="text-brand-300 dark:text-brand-400 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10 max-w-md"
+            className="text-brand-300 dark:text-brand-400 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 md:mb-10 max-sm:mb-5 max-w-md"
             style={{ opacity: 0 }}
           >
             Discover the latest fashion collections and new arrivals. Stylish, modern clothing designed to elevate your everyday look with timeless elegance.
@@ -477,20 +480,20 @@ export default function HeroSection() {
           {/* CTA Buttons */}
           <div
             ref={ctaRef}
-            className="flex flex-col sm:flex-row flex-wrap gap-4 w-full sm:w-auto"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto"
           >
             <Link
               href="/products"
               ref={(el) => (magneticBtns.current[0] = el)}
-              className="hero-btn-primary magnetic-btn w-full sm:w-auto text-center"
+              className="hero-btn-primary magnetic-btn flex-1 sm:flex-none w-auto max-sm:max-w-[50%] sm:w-auto text-center whitespace-nowrap max-sm:!px-4 max-sm:!py-3 max-sm:!text-[10px]"
             >
-              <span className="hero-btn-text">Shop Collection</span>
+              <span className="hero-btn-text whitespace-nowrap">Shop Collection</span>
               <span className="hero-btn-shine" />
             </Link>
             <a
               href="#contact"
               ref={(el) => (magneticBtns.current[1] = el)}
-              className="hero-btn-outline magnetic-btn w-full sm:w-auto text-center"
+              className="hero-btn-outline magnetic-btn flex-1 sm:flex-none w-auto max-sm:max-w-[50%] sm:w-auto text-center whitespace-nowrap max-sm:!px-4 max-sm:!py-3 max-sm:!text-[10px]"
             >
               Contact Me
             </a>
@@ -501,7 +504,7 @@ export default function HeroSection() {
 
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
+      <div className="hidden sm:flex absolute bottom-8 left-1/2 -translate-x-1/2 flex-col items-center gap-2">
         <div
           ref={scrollIndicatorRef}
           className="flex flex-col items-center gap-2"
