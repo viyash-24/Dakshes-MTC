@@ -20,18 +20,25 @@ export default function ScrollAnimations({ children, refreshKey }) {
     const container = containerRef.current
     if (!container) return
 
-    const ctx = gsap.context(() => {
+    const mm = gsap.matchMedia()
+
+    mm.add({
+      isMobile: "(max-width: 767px)",
+      isDesktop: "(min-width: 768px)"
+    }, (context) => {
+      const { isMobile, isDesktop } = context.conditions
+
       // --- Reveal Up animations ---
       const revealUpEls = container.querySelectorAll('.gsap-reveal-up')
       revealUpEls.forEach((el) => {
         gsap.to(el, {
           y: 0,
           opacity: 1,
-          duration: 0.85,
+          duration: isMobile ? 0.6 : 0.85,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: isMobile ? 'top 95%' : 'top 88%',
             once: true,
           },
         })
@@ -43,11 +50,11 @@ export default function ScrollAnimations({ children, refreshKey }) {
         gsap.to(el, {
           x: 0,
           opacity: 1,
-          duration: 0.85,
+          duration: isMobile ? 0.6 : 0.85,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: isMobile ? 'top 95%' : 'top 88%',
             once: true,
           },
         })
@@ -59,11 +66,11 @@ export default function ScrollAnimations({ children, refreshKey }) {
         gsap.to(el, {
           x: 0,
           opacity: 1,
-          duration: 0.85,
+          duration: isMobile ? 0.6 : 0.85,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: isMobile ? 'top 95%' : 'top 88%',
             once: true,
           },
         })
@@ -75,11 +82,11 @@ export default function ScrollAnimations({ children, refreshKey }) {
         gsap.to(el, {
           scale: 1,
           opacity: 1,
-          duration: 0.85,
+          duration: isMobile ? 0.6 : 0.85,
           ease: 'power3.out',
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: isMobile ? 'top 95%' : 'top 88%',
             once: true,
           },
         })
@@ -91,11 +98,11 @@ export default function ScrollAnimations({ children, refreshKey }) {
         gsap.to(el, {
           clipPath: 'inset(0 0% 0 0)',
           opacity: 1,
-          duration: 0.9,
+          duration: isMobile ? 0.6 : 0.9,
           ease: 'power3.inOut',
           scrollTrigger: {
             trigger: el,
-            start: 'top 88%',
+            start: isMobile ? 'top 95%' : 'top 88%',
             once: true,
           },
         })
@@ -106,11 +113,11 @@ export default function ScrollAnimations({ children, refreshKey }) {
       lineRevealEls.forEach((el) => {
         gsap.to(el, {
           scaleX: 1,
-          duration: 0.85,
+          duration: isMobile ? 0.6 : 0.85,
           ease: 'power2.inOut',
           scrollTrigger: {
             trigger: el,
-            start: 'top 90%',
+            start: isMobile ? 'top 95%' : 'top 90%',
             once: true,
           },
         })
@@ -125,12 +132,12 @@ export default function ScrollAnimations({ children, refreshKey }) {
         gsap.to(items, {
           y: 0,
           opacity: 1,
-          duration: 0.7,
+          duration: isMobile ? 0.5 : 0.7,
           ease: 'power3.out',
-          stagger: 0.1,
+          stagger: isMobile ? 0.05 : 0.1,
           scrollTrigger: {
             trigger: group,
-            start: 'top 85%',
+            start: isMobile ? 'top 95%' : 'top 85%',
             once: true,
           },
         })
@@ -143,13 +150,13 @@ export default function ScrollAnimations({ children, refreshKey }) {
         if (!img) return
 
         gsap.to(img, {
-          y: 60,
+          y: isMobile ? 25 : 60,
           ease: 'none',
           scrollTrigger: {
             trigger: el,
             start: 'top bottom',
             end: 'bottom top',
-            scrub: 0.6,
+            scrub: isMobile ? 0.3 : 0.6,
           },
         })
       })
@@ -162,11 +169,11 @@ export default function ScrollAnimations({ children, refreshKey }) {
           { scaleX: 0, transformOrigin: 'center center' },
           {
             scaleX: 1,
-            duration: 1.2,
+            duration: isMobile ? 0.8 : 1.2,
             ease: 'power2.inOut',
             scrollTrigger: {
               trigger: sep,
-              start: 'top 92%',
+              start: isMobile ? 'top 95%' : 'top 92%',
               once: true,
             },
           }
@@ -182,9 +189,9 @@ export default function ScrollAnimations({ children, refreshKey }) {
           {
             y: 0,
             opacity: 1,
-            duration: 0.8,
+            duration: isMobile ? 0.6 : 0.8,
             ease: 'power3.out',
-            delay: 0.2,
+            delay: isMobile ? 0.1 : 0.2,
           }
         )
       }
@@ -200,12 +207,12 @@ export default function ScrollAnimations({ children, refreshKey }) {
             {
               y: 0,
               opacity: 1,
-              duration: 0.7,
+              duration: isMobile ? 0.5 : 0.7,
               ease: 'power3.out',
-              stagger: 0.12,
+              stagger: isMobile ? 0.05 : 0.12,
               scrollTrigger: {
                 trigger: footer,
-                start: 'top 90%',
+                start: isMobile ? 'top 95%' : 'top 90%',
                 once: true,
               },
             }
@@ -221,18 +228,18 @@ export default function ScrollAnimations({ children, refreshKey }) {
             {
               y: 0,
               opacity: 1,
-              duration: 0.6,
+              duration: isMobile ? 0.4 : 0.6,
               ease: 'power3.out',
               scrollTrigger: {
                 trigger: footerBottom,
-                start: 'top 95%',
+                start: isMobile ? 'top 98%' : 'top 95%',
                 once: true,
               },
             }
           )
         }
       }
-    }, container)
+    }, container) // Pass container as the scope for matchMedia
 
     // Force recalculation after layout settles, fonts load, and on initial render
     const tId1 = setTimeout(() => ScrollTrigger.refresh(), 100)
@@ -247,12 +254,12 @@ export default function ScrollAnimations({ children, refreshKey }) {
     return () => {
       clearTimeout(tId1)
       clearTimeout(tId2)
-      ctx.revert()
+      mm.revert()
     }
   }, [refreshKey])
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} className="max-sm:overflow-x-hidden max-sm:w-full">
       {children}
     </div>
   )

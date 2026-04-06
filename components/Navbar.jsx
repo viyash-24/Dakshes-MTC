@@ -58,7 +58,7 @@ export default function Navbar() {
               </div>
               <span
                 style={{ fontFamily: 'Cormorant Garamond, serif' }}
-                className="text-md sm:text-xl md:text-2xl font-light tracking-[0.1em] text-brand-950 dark:text-white uppercase group-hover:tracking-[0.15em] transition-all duration-500"
+                className="text-md sm:text-xl md:text-2xl font-light tracking-[0.1em] text-brand-950 dark:text-white uppercase group-hover:tracking-[0.15em] transition-all duration-500 max-w-[120px] sm:max-w-none truncate sm:whitespace-normal"
               >
                 Dakshes Multi Trade Center
               </span>
