@@ -193,7 +193,7 @@ export default function HomePage() {
                       </div>
                       <div>
                         <p className="text-xs tracking-widest uppercase text-brand-400 dark:text-brand-600">{item.label}</p>
-                        <p className="text-sm text-brand-700 dark:text-brand-300 group-hover:text-brand-950 dark:group-hover:text-white transition-colors duration-300">{item.value}</p>
+                        <p className="text-sm text-brand-700 dark:text-brand-300 group-hover:text-brand-950 dark:group-hover:text-white transition-colors duration-300 break-all sm:break-normal">{item.value}</p>
                       </div>
                     </a>
                   ))}

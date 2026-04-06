@@ -26,8 +26,8 @@ export default function ProductCard({ product }) {
 
         {/* Info */}
         <div className="p-5 max-sm:p-2">
-          <div className="flex justify-between items-start gap-2">
-            <div className="min-w-0">
+          <div className="flex flex-col max-sm:gap-0.5 sm:flex-row sm:justify-between sm:items-start gap-2">
+            <div className="min-w-0 w-full">
               <p className="text-xs max-sm:text-[9px] text-brand-400 dark:text-brand-500 tracking-widest uppercase mb-1 max-sm:mb-0.5 truncate">{product.code}</p>
               <h3 className="text-sm max-sm:text-[10px] font-medium text-brand-900 dark:text-white leading-snug max-sm:leading-tight group-hover:text-brand-600 dark:group-hover:text-brand-300 transition-colors duration-300 truncate">
                 {product.name}
@@ -35,7 +35,7 @@ export default function ProductCard({ product }) {
             </div>
             <p
               style={{ fontFamily: 'Cormorant Garamond, serif' }}
-              className="text-xl max-sm:text-[11px] font-light text-brand-950 dark:text-white shrink-0"
+              className="text-xl max-sm:text-[11px] font-light text-brand-950 dark:text-white shrink-0 sm:self-start"
             >
               {formatLkr(product.price)}
             </p>
