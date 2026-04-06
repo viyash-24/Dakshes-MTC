@@ -41,9 +41,10 @@ export default function HomePage() {
 
   const safeProducts = Array.isArray(products) ? products : []
   const featured = safeProducts.length > 4 ? safeProducts.slice(0, 4) : safeProducts
+  const refreshKey = featured.map(p => p.id).join('|')
 
   return (
-    <ScrollAnimations>
+    <ScrollAnimations refreshKey={refreshKey}>
       <div className="min-h-screen bg-brand-50 dark:bg-brand-950">
         <Navbar />
 
@@ -94,7 +95,7 @@ export default function HomePage() {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5" data-gsap-stagger>
+            <div className="grid grid-cols-1 max-sm:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-sm:gap-2" data-gsap-stagger>
               {featured.map((product) => (
                 <div key={product.id} className="gsap-stagger-item">
                   <ProductCard product={product} />
