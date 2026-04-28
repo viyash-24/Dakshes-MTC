@@ -30,3 +30,42 @@ export async function POST(request) {
     const body = await request.json();
 
     const { name, price, image, description, category, code } = body;
+
+    // Validate required fields
+    if (!name || price === undefined || price === null || !image) {
+      return NextResponse.json(
+        { success: false, message: "Name, price, and image are required" },
+        { status: 400 }
+      );
+    }
+
+    const product = await Product.create({
+      name,
+      price,
+      image,
+      description: description || "",
+      category: category || "",
+      code: code || "",
+    });
+
+    return NextResponse.json(
+      { success: true, data: product },
+      { status: 201 }
+    );
+  } catch (error) {
+    console.error("POST /api/products error:", error);
+
+    if (error.name === "ValidationError") {
+      const messages = Object.values(error.errors).map((e) => e.message);
+      return NextResponse.json(
+        { success: false, message: messages.join(", ") },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json(
+      { success: false, message: "Failed to create product" },
+      { status: 500 }
+    );
+  }
+}
