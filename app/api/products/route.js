@@ -21,3 +21,12 @@ export async function GET() {
     );
   }
 }
+
+// POST - Create a new product
+export async function POST(request) {
+  try {
+    await connectDB();
+
+    const body = await request.json();
+
+    const { name, price, image, description, category, code } = body;
