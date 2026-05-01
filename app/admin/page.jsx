@@ -314,7 +314,7 @@ export default function AdminPage() {
               {/* Mobile Cards */}
               <div className="lg:hidden space-y-4">
                 {products.map(product => (
-                  <div key={product.id} className="bg-white dark:bg-brand-900 border border-brand-100 dark:border-brand-800 p-4">
+                  <div key={product._id || product.id} className="bg-white dark:bg-brand-900 border border-brand-100 dark:border-brand-800 p-4">
                     <div className="flex gap-4">
                       <div className="w-16 h-20 bg-brand-100 dark:bg-brand-800 overflow-hidden shrink-0">
                         <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
@@ -354,7 +354,7 @@ export default function AdminPage() {
                     <tbody>
                       {products.map((product, i) => (
                         <tr
-                          key={product.id}
+                          key={product._id || product.id}
                           className="border-b border-brand-50 dark:border-brand-800/50 hover:bg-brand-50 dark:hover:bg-brand-800/30 transition-colors duration-200"
                         >
                           <td className="px-6 py-4">
