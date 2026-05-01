@@ -1,6 +1,14 @@
 import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Product from "@/models/product";
+import { v2 as cloudinary } from "cloudinary";
+
+// Cloudinary Configuration
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export const dynamic = 'force-dynamic';
 
@@ -29,9 +37,29 @@ export async function POST(request) {
   try {
     await connectDB();
 
-    const body = await request.json();
+    const formData = await request.formData();
 
-    const { name, price, image, description, category, code } = body;
+    const name = formData.get("name");
+    const price = formData.get("price");
+    let image = formData.get("image");
+    const description = formData.get("description");
+    const category = formData.get("category");
+    const code = formData.get("code");
+    const sizes = formData.getAll("sizes");
+
+    // ===== CLOUDINARY UPLOAD COMPONENT =====
+    if (image && typeof image === "object" && image.name) {
+      const bytes = await image.arrayBuffer();
+      const buffer = Buffer.from(bytes);
+      // Convert buffer directly to a base64 Data URI
+      const base64Data = `data:${image.type};base64,${buffer.toString("base64")}`;
+      
+      const uploadRes = await cloudinary.uploader.upload(base64Data, {
+        folder: "dakshes_products",
+      });
+      image = uploadRes.secure_url;
+    }
+    // =======================================
 
     // Validate required fields
     if (!name || price === undefined || price === null || !image) {
@@ -48,6 +76,7 @@ export async function POST(request) {
       description: description || "",
       category: category || "",
       code: code || "",
+      sizes: sizes.length > 0 ? sizes : ['S', 'M', 'L']
     });
 
     return NextResponse.json(
