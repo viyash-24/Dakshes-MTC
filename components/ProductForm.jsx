@@ -37,15 +37,24 @@ export default function ProductForm({ product, onSave, onCancel }) {
 
   const handleSubmit = () => {
     const e = validate()
+    if (!form.image && !product?.image) e.image = 'Product image is required'    
     if (Object.keys(e).length > 0) { setErrors(e); return }
 
-    const saved = {
-      ...form,
-      id: product?.id || Date.now().toString(),
-      price: parseFloat(form.price),
-      image: form.image || `https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=800&q=80`,
+    const formData = new FormData()
+    formData.append('id', product?.id || Date.now().toString())
+    formData.append('name', form.name)
+    formData.append('price', form.price)
+    formData.append('code', form.code)
+    formData.append('description', form.description)
+    formData.append('category', form.category)
+    form.sizes.forEach(size => formData.append('sizes', size))
+    
+    // Only append if it's a new File object, otherwise server keeps existing image
+    if (form.image instanceof File) {
+      formData.append('image', form.image)
     }
-    onSave(saved)
+
+    onSave(formData)
   }
 
   const toggleSize = (size) => {
@@ -127,19 +136,31 @@ export default function ProductForm({ product, onSave, onCancel }) {
         </div>
       </div>
 
-      {/* Image URL */}
+      {/* Image Upload */}
       <div>
-        <label className="block text-xs tracking-widest uppercase text-brand-500 dark:text-brand-400 mb-2">Image URL</label>
+        <label className="block text-xs tracking-widest uppercase text-brand-500 dark:text-brand-400 mb-2">Product Image *</label>
         <input
-          type="url"
-          value={form.image}
-          onChange={e => setForm(f => ({ ...f, image: e.target.value }))}
-          placeholder="https://images.unsplash.com/..."
-          className={inputClass('image')}
+          type="file"
+          accept="image/*"
+          onChange={e => { 
+            const file = e.target.files[0]
+            if (file) {
+              setForm(f => ({ ...f, image: file }))
+              setErrors(er => ({ ...er, image: '' }))
+            }
+          }}
+          className={inputClass('image') + " file:mr-4 file:py-2 file:px-4 file:rounded-none file:border-0 file:text-xs file:font-semibold file:bg-brand-900 file:text-brand-100 hover:file:bg-brand-800"}
         />
+        {errors.image && <p className="text-red-400 text-xs mt-1">{errors.image}</p>}
+        {/* Preview previously saved URL or local file preview */}
         {form.image && (
           <div className="mt-2 relative w-20 h-24 bg-brand-100 dark:bg-brand-800 overflow-hidden">
-            <img src={form.image} alt="preview" className="w-full h-full object-cover" onError={(e) => e.target.style.display = 'none'} />
+            <img 
+              src={typeof form.image === 'string' ? form.image : URL.createObjectURL(form.image)} 
+              alt="preview" 
+              className="w-full h-full object-cover" 
+              onError={(e) => e.target.style.display = 'none'} 
+            />
           </div>
         )}
       </div>

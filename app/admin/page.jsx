@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import ProductForm from '@/components/ProductForm'
-import { GET, POST, formatLkr } from '@/lib/products'
+import { formatLkr } from '@/lib/products'
 
 const ADMIN_PASSWORD = 'admin123'
 
@@ -18,11 +18,22 @@ export default function AdminPage() {
   const [toast, setToast] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
+  // To Fetch
+  const fetchProducts = async () => {
+    try {
+      const res = await fetch('/api/products')
+      const result = await res.json()
+      if (result.success) setProducts(result.data)
+    } catch (error) {
+      console.error('Failed to fetch products', error)
+    }
+  }
+
   useEffect(() => {
     const auth = sessionStorage.getItem('void_admin')
     if (auth === 'true') {
       setIsAuthenticated(true)
-      setProducts(GET())
+      fetchProducts()
     }
   }, [])
 
@@ -30,13 +41,6 @@ export default function AdminPage() {
     setToast({ message, type })
     setTimeout(() => setToast(null), 3000)
   }
-
-  // To Fetch
-const fetchProducts = async () => {
-  const res = await fetch('/api/products')
-  const result = await res.json()
-  if (result.success) setProducts(result.data)
-}
 
   const handleLogin = async () => {
     if (password === ADMIN_PASSWORD) {
@@ -55,23 +59,48 @@ const fetchProducts = async () => {
     setPassword('')
   }
 
-  const handleSave = (product) => {
-    const updated = editingProduct
-      ? products.map(p => p.id === product.id ? product : p)
-      : [...products, product]
-    setProducts(updated)
-    POST(updated)
-    setView('dashboard')
-    setEditingProduct(null)
-    showToast(editingProduct ? 'Product updated successfully' : 'Product added successfully')
+  const handleSave = async (formData) => {
+    try {
+      const isEditing = !!editingProduct
+      const productId = isEditing ? (editingProduct._id || editingProduct.id) : null
+      const url = isEditing ? `/api/products/${productId}` : '/api/products'
+      const method = isEditing ? 'PUT' : 'POST'
+      
+      const res = await fetch(url, {
+        method,
+        body: formData
+      })
+      const result = await res.json()
+      
+      if (result.success) {
+        await fetchProducts()
+        setView('dashboard')
+        setEditingProduct(null)
+        showToast(isEditing ? 'Product updated successfully' : 'Product added successfully')
+      } else {
+        showToast(result.message || 'Failed to save product', 'error')
+      }
+    } catch (error) {
+      console.error('Failed to save product:', error)
+      showToast('Error saving product', 'error')
+    }
   }
 
-  const handleDelete = (id) => {
-    const updated = products.filter(p => p.id !== id)
-    setProducts(updated)
-    POST(updated)
-    setDeleteConfirm(null)
-    showToast('Product deleted', 'error')
+  const handleDelete = async (id) => {
+    try {
+      const res = await fetch(`/api/products/${id}`, { method: 'DELETE' })
+      const result = await res.json()
+      if (result.success) {
+        await fetchProducts()
+        setDeleteConfirm(null)
+        showToast('Product deleted', 'error')
+      } else {
+        showToast(result.message || 'Failed to delete product', 'error')
+      }
+    } catch (error) {
+      console.error('Failed to delete product:', error)
+      showToast('Error deleting product', 'error')
+    }
   }
 
   const handleEdit = (product) => {
@@ -299,7 +328,7 @@ const fetchProducts = async () => {
                     </div>
                     <div className="flex gap-2 mt-4">
                       <button onClick={() => handleEdit(product)} className="flex-1 btn-outline py-2 text-xs">Edit</button>
-                      <button onClick={() => setDeleteConfirm(product.id)} className="flex-1 py-2 text-xs border border-red-200 dark:border-red-900 text-red-500 hover:bg-red-50 dark:hover:bg-red-950 tracking-widest uppercase transition-colors duration-200">Delete</button>
+                      <button onClick={() => setDeleteConfirm(product._id || product.id)} className="flex-1 py-2 text-xs border border-red-200 dark:border-red-900 text-red-500 hover:bg-red-50 dark:hover:bg-red-950 tracking-widest uppercase transition-colors duration-200">Delete</button>
                     </div>
                   </div>
                 ))}
@@ -367,7 +396,7 @@ const fetchProducts = async () => {
                                 Edit
                               </button>
                               <button
-                                onClick={() => setDeleteConfirm(product.id)}
+                                onClick={() => setDeleteConfirm(product._id || product.id)}
                                 className="text-xs tracking-widest uppercase border border-red-200 dark:border-red-900/50 px-3 py-1.5 text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 transition-all duration-200"
                               >
                                 Delete

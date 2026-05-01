@@ -7,7 +7,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import WhatsAppButton from '@/components/WhatsAppButton'
 import ScrollAnimations from '@/components/ScrollAnimations'
-import { getProducts, formatLkr } from '@/lib/products'
+import { formatLkr } from '@/lib/products'
 
 export default function ProductDetailPage() {
   const params = useParams()
