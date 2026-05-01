@@ -5,7 +5,8 @@ const WHATSAPP_NUMBER = '94775186518'
 export default function WhatsAppButton({ product, selectedSize, quantity, disabled }) {
   const handleClick = () => {
     if (disabled) return
-    const message = `Hello, I want to order this product:\n\nProduct: ${product.name}\nCode: ${product.code}\nSize: ${selectedSize}\nQuantity: ${quantity}`
+    const productUrl = typeof window !== 'undefined' ? window.location.href : ''
+    const message = `Hello, I want to order this product:\n\nProduct: ${product.name}\nCode: ${product.code}\nSize: ${selectedSize}\nQuantity: ${quantity}\nLink: ${productUrl}`
     const encodedMessage = encodeURIComponent(message)
     const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`
     window.open(url, '_blank', 'noopener,noreferrer')
