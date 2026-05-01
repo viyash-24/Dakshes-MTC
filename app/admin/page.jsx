@@ -31,11 +31,18 @@ export default function AdminPage() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  const handleLogin = () => {
+  // To Fetch
+const fetchProducts = async () => {
+  const res = await fetch('/api/products')
+  const result = await res.json()
+  if (result.success) setProducts(result.data)
+}
+
+  const handleLogin = async () => {
     if (password === ADMIN_PASSWORD) {
       sessionStorage.setItem('void_admin', 'true')
       setIsAuthenticated(true)
-      setProducts(GET())
+      await fetchProducts()
     } else {
       setPasswordError(true)
       setTimeout(() => setPasswordError(false), 2000)
