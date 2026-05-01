@@ -8,7 +8,7 @@ import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
 import HeroSection from '@/components/HeroSection'
 import ScrollAnimations from '@/components/ScrollAnimations'
-import { getProducts, initialProducts } from '@/lib/products'
+import { GET } from '@/app/api/products/route'
 
 export default function HomePage() {
   const [products, setProducts] = useState(initialProducts)
