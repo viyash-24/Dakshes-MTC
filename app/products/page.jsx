@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProductGrid from '@/components/ProductGrid'
 import ScrollAnimations from '@/components/ScrollAnimations'
-import { getProducts } from '@/models/product'
+
 
 const CATEGORIES = ['All', 'Tops', 'Bottoms', 'Outerwear', 'Knitwear', 'Accessories']
 
@@ -16,7 +16,18 @@ export default function ProductsPage() {
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    setProducts(getProducts())
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch('/api/products')
+        const result = await res.json()
+        if (result.success) {
+          setProducts(result.data)
+        }
+      } catch (err) {
+        console.error('Error fetching products', err)
+      }
+    }
+    fetchProducts()
   }, [])
 
   const filtered = products
