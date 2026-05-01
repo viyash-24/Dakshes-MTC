@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connectDB from "@/lib/db";
 import Product from "@/models/product";
 
+export const dynamic = 'force-dynamic';
+
 // GET - Fetch all products
 export async function GET() {
   try {
