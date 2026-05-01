@@ -45,7 +45,11 @@ export default function ProductDetailPage() {
     )
   }
 
-  const isOrderable = selectedSize && quantity > 0
+  const hasSizes = product.sizes && product.sizes.length > 0;
+  const validSizes = hasSizes ? product.sizes.filter(s => s.trim() !== '') : [];
+  const reallyHasSizes = validSizes.length > 0;
+
+  const isOrderable = (reallyHasSizes ? selectedSize : true) && quantity > 0;
 
   return (
     <ScrollAnimations>
@@ -120,35 +124,33 @@ export default function ProductDetailPage() {
                   {formatLkr(product.price)}
                 </p>
 
-                {/* Divider */}
-                <div className="h-px bg-brand-100 dark:bg-brand-800 mb-8 gsap-line-reveal" />
-
-                {/* Size Selection */}
-                <div className="mb-8">
-                  <div className="flex justify-between items-center mb-4">
-                    <p className="text-xs font-medium tracking-widest uppercase text-brand-700 dark:text-brand-300">
-                      Select Size
-                    </p>
-                    {!selectedSize && (
-                      <span className="text-xs text-brand-400 dark:text-brand-600 italic">Required to order</span>
-                    )}
+                {reallyHasSizes && (
+                  <div className="mb-8">
+                    <div className="flex justify-between items-center mb-4">
+                      <p className="text-xs font-medium tracking-widest uppercase text-brand-700 dark:text-brand-300">
+                        Select Size
+                      </p>
+                      {!selectedSize && (
+                        <span className="text-xs text-brand-400 dark:text-brand-600 italic">Required to order</span>
+                      )}
+                    </div>
+                    <div className="flex gap-2 flex-wrap">
+                      {validSizes.map(size => (
+                        <button
+                          key={size}
+                          onClick={() => setSelectedSize(selectedSize === size ? '' : size)}
+                          className={`w-12 h-12 text-sm font-medium border transition-all duration-200 ${
+                            selectedSize === size
+                              ? 'bg-brand-950 dark:bg-white border-brand-950 dark:border-white text-white dark:text-brand-950'
+                              : 'border-brand-200 dark:border-brand-700 text-brand-700 dark:text-brand-300 hover:border-brand-950 dark:hover:border-white'
+                          }`}
+                        >
+                          {size}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div className="flex gap-2 flex-wrap">
-                    {product.sizes?.map(size => (
-                      <button
-                        key={size}
-                        onClick={() => setSelectedSize(selectedSize === size ? '' : size)}
-                        className={`w-12 h-12 text-sm font-medium border transition-all duration-200 ${
-                          selectedSize === size
-                            ? 'bg-brand-950 dark:bg-white border-brand-950 dark:border-white text-white dark:text-brand-950'
-                            : 'border-brand-200 dark:border-brand-700 text-brand-700 dark:text-brand-300 hover:border-brand-950 dark:hover:border-white'
-                        }`}
-                      >
-                        {size}
-                      </button>
-                    ))}
-                  </div>
-                </div>
+                )}
 
                 {/* Quantity */}
                 <div className="mb-8">
