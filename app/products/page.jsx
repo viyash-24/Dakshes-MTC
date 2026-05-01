@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ProductGrid from '@/components/ProductGrid'
 import ScrollAnimations from '@/components/ScrollAnimations'
-import { getProducts } from '@/lib/products'
+import { getProducts } from '@/models/product'
 
 const CATEGORIES = ['All', 'Tops', 'Bottoms', 'Outerwear', 'Knitwear', 'Accessories']
 
