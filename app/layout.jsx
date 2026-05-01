@@ -1,5 +1,6 @@
 import './globals.css'
 import Script from 'next/script'
+import { SpeedInsights } from '@vercel/speed-insights/next'
 
 export const metadata = {
   title: 'Dakshes Multi Trade Center',
@@ -38,6 +39,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="bg-brand-50 dark:bg-brand-950 text-brand-900 dark:text-brand-50 antialiased">
         {children}
+        <SpeedInsights />
       </body>
     </html>
   )
