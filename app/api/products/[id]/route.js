@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 // PUT - Update a product
 export async function PUT(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     await connectDB();
 
     const formData = await request.formData();
@@ -73,7 +73,7 @@ export async function PUT(request, { params }) {
 // DELETE - Delete a product
 export async function DELETE(request, { params }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     await connectDB();
 
     const product = await Product.findByIdAndDelete(id);

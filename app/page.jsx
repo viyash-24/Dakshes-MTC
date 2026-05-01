@@ -48,7 +48,7 @@ export default function HomePage() {
 
   const safeProducts = Array.isArray(products) ? products : []
   const featured = safeProducts.length > 4 ? safeProducts.slice(0, 4) : safeProducts
-  const refreshKey = featured.map(p => p.id).join('|')
+  const refreshKey = featured.map(p => p._id || p.id).join('|')
 
   return (
     <ScrollAnimations refreshKey={refreshKey}>
@@ -104,7 +104,7 @@ export default function HomePage() {
 
             <div className="grid grid-cols-1 max-sm:grid-cols-3 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-sm:gap-2" data-gsap-stagger>
               {featured.map((product) => (
-                <div key={product.id} className="gsap-stagger-item">
+                <div key={product._id || product.id} className="gsap-stagger-item">
                   <ProductCard product={product} />
                 </div>
               ))}

@@ -4,7 +4,7 @@ import { formatLkr } from '@/lib/products'
 
 export default function ProductCard({ product }) {
   return (
-    <Link href={`/products/${product.id}`} className="group block">
+    <Link href={`/products/${product._id || product.id}`} className="group block">
       <div className="product-card-enhanced relative overflow-hidden bg-white dark:bg-brand-900 border border-brand-100 dark:border-brand-800 rounded-[20px]">
         {/* Image Container */}
         <div className="relative overflow-hidden aspect-[4/5] bg-brand-100 dark:bg-brand-800">
