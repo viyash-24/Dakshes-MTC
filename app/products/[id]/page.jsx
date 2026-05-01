@@ -18,9 +18,19 @@ export default function ProductDetailPage() {
   const [activeTab, setActiveTab] = useState('description')
 
   useEffect(() => {
-    const products = getProducts()
-    const found = products.find(p => p.id === params.id)
-    setProduct(found || null)
+    const fetchProduct = async () => {
+    try {
+      const res = await fetch('/api/products')
+      const result = await res.json()
+      if (result.success) {
+        const found = result.data.find(p => p._id === params.id || p.id === params.id)
+        setProduct(found || null)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  fetchProduct()
   }, [params.id])
 
   if (!product) {

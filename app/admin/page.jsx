@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import ProductForm from '@/components/ProductForm'
-import { getProducts, saveProducts, formatLkr } from '@/lib/products'
+import { GET, POST, formatLkr } from '@/lib/products'
 
 const ADMIN_PASSWORD = 'admin123'
 
@@ -22,7 +22,7 @@ export default function AdminPage() {
     const auth = sessionStorage.getItem('void_admin')
     if (auth === 'true') {
       setIsAuthenticated(true)
-      setProducts(getProducts())
+      setProducts(GET())
     }
   }, [])
 
@@ -31,11 +31,18 @@ export default function AdminPage() {
     setTimeout(() => setToast(null), 3000)
   }
 
-  const handleLogin = () => {
+  // To Fetch
+const fetchProducts = async () => {
+  const res = await fetch('/api/products')
+  const result = await res.json()
+  if (result.success) setProducts(result.data)
+}
+
+  const handleLogin = async () => {
     if (password === ADMIN_PASSWORD) {
       sessionStorage.setItem('void_admin', 'true')
       setIsAuthenticated(true)
-      setProducts(getProducts())
+      await fetchProducts()
     } else {
       setPasswordError(true)
       setTimeout(() => setPasswordError(false), 2000)
@@ -53,7 +60,7 @@ export default function AdminPage() {
       ? products.map(p => p.id === product.id ? product : p)
       : [...products, product]
     setProducts(updated)
-    saveProducts(updated)
+    POST(updated)
     setView('dashboard')
     setEditingProduct(null)
     showToast(editingProduct ? 'Product updated successfully' : 'Product added successfully')
@@ -62,7 +69,7 @@ export default function AdminPage() {
   const handleDelete = (id) => {
     const updated = products.filter(p => p.id !== id)
     setProducts(updated)
-    saveProducts(updated)
+    POST(updated)
     setDeleteConfirm(null)
     showToast('Product deleted', 'error')
   }
