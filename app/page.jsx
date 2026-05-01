@@ -8,14 +8,21 @@ import Footer from '@/components/Footer'
 import ProductCard from '@/components/ProductCard'
 import HeroSection from '@/components/HeroSection'
 import ScrollAnimations from '@/components/ScrollAnimations'
-import { GET } from '@/app/api/products/route'
 
 export default function HomePage() {
   const [products, setProducts] = useState(initialProducts)
   const pathname = usePathname()
 
-  const loadProducts = useCallback(() => {
-    setProducts(getProducts())
+ const loadProducts = useCallback(async () => {
+    try {
+      const res = await fetch('/api/products')
+      const result = await res.json()
+      if (result.success) {
+        setProducts(result.data)
+      }
+    } catch (error) {
+      console.error('Failed to load products:', error)
+    }
   }, [])
 
   useEffect(() => {
