@@ -10,7 +10,7 @@ import HeroSection from '@/components/HeroSection'
 import ScrollAnimations from '@/components/ScrollAnimations'
 
 export default function HomePage() {
-  const [products, setProducts] = useState(initialProducts)
+  const [products, setProducts] = useState([])
   const pathname = usePathname()
 
  const loadProducts = useCallback(async () => {
